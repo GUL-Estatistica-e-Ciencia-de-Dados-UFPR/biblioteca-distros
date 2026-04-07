@@ -258,6 +258,43 @@ launch_qemu() {
     fi
 }
 
+rebuild_iso_explicit() {
+    local extract_dir="$1"
+    local output_iso="$2"
+    local volume_id="$3"
+
+    local mbr_bin=""
+    local efi_img=""
+    local bios_bin=""
+    local boot_cat="isolinux/boot.cat"
+
+    [[ -f "$extract_dir/isolinux/isohdpfx.bin" ]] && mbr_bin="$extract_dir/isolinux/isohdpfx.bin"
+    [[ -f "$extract_dir/boot/grub/efi.img" ]] && efi_img="boot/grub/efi.img"
+    [[ -f "$extract_dir/isolinux/isolinux.bin" ]] && bios_bin="isolinux/isolinux.bin"
+
+    [[ -n "$mbr_bin" ]] || die "Could not find isolinux/isohdpfx.bin in extracted ISO"
+    [[ -n "$efi_img" ]] || die "Could not find boot/grub/efi.img in extracted ISO"
+    [[ -n "$bios_bin" ]] || die "Could not find isolinux/isolinux.bin in extracted ISO"
+
+    xorriso -as mkisofs \
+      -r \
+      -V "$volume_id" \
+      -o "$output_iso" \
+      -J -joliet-long -l \
+      -iso-level 3 \
+      -isohybrid-mbr "$mbr_bin" \
+      -c "$boot_cat" \
+      -b "$bios_bin" \
+      -no-emul-boot \
+      -boot-load-size 4 \
+      -boot-info-table \
+      -eltorito-alt-boot \
+      -e "$efi_img" \
+      -no-emul-boot \
+      -isohybrid-gpt-basdat \
+      "$extract_dir"
+}
+
 [[ $# -lt 3 || $# -gt 4 ]] && usage && exit 1
 
 ISO_INPUT="$(readlink -f "$1")"
@@ -301,6 +338,7 @@ need_cmd blockdev
 need_cmd lsblk
 need_cmd umount
 need_cmd qemu-system-x86_64
+need_cmd isoinfo
 
 OVMF_CODE=""
 if [[ "$BOOT_MODE" == "uefi" ]]; then
@@ -324,9 +362,9 @@ ISO_OUTPUT="${ISO_DIR}/${ISO_STEM}-repacked.iso"
 
 TMP_ROOT="$(mktemp -d)"
 EXTRACT_DIR="${TMP_ROOT}/extract"
-REPORT_FILE="${WORKDIR}/xorriso-original-mkisofs-report.txt"
 PATCH_LOG="${WORKDIR}/patch-report.txt"
 HASH_REPORT="${WORKDIR}/$(basename "$DEV").hash-report.txt"
+BUILD_LOG="${WORKDIR}/rebuild-command.txt"
 
 cleanup() {
     rm -rf "$TMP_ROOT"
@@ -355,13 +393,6 @@ GRUB_PBKDF2_HASH="$(make_pbkdf2_hash "$GRUB_PASSWORD")"
 log "Extracting ISO contents..."
 xorriso -osirrox on -indev "$ISO_INPUT" -extract / "$EXTRACT_DIR" >/dev/null 2>&1 || \
     die "Failed to extract ISO contents"
-
-log "Capturing original xorriso mkisofs-style parameters..."
-xorriso -indev "$ISO_INPUT" -report_el_torito as_mkisofs > "$REPORT_FILE" 2>/dev/null || \
-    die "Failed to obtain original ISO boot parameters"
-
-grep -q 'xorriso -as mkisofs' "$REPORT_FILE" || \
-    die "Could not find mkisofs-style command in xorriso report"
 
 : > "$PATCH_LOG"
 
@@ -424,17 +455,17 @@ cat "$PATCH_LOG"
 
 unset GRUB_PASSWORD
 
-log "Preparing rebuild command from original xorriso report..."
-ORIG_CMD="$(tr '\n' ' ' < "$REPORT_FILE" | sed 's/[[:space:]]\+/ /g')"
-ORIG_ARGS="$(printf '%s\n' "$ORIG_CMD" | sed -E 's/^.*xorriso -as mkisofs[[:space:]]+//')"
-ORIG_ARGS="$(printf '%s\n' "$ORIG_ARGS" | sed -E 's/[[:space:]]-o[[:space:]]+('\''[^'\'']*'\''|"[^"]*"|[^[:space:]]+)//')"
-ORIG_ARGS="$(printf '%s\n' "$ORIG_ARGS" | sed -E 's/[[:space:]]('\''[^'\'']*'\''|"[^"]*"|[^[:space:]]+)[[:space:]]*$//')"
+VOLUME_ID="$(isoinfo -d -i "$ISO_INPUT" 2>/dev/null | awk -F': ' '/Volume id:/ {print $2; exit}')"
+[[ -n "${VOLUME_ID:-}" ]] || VOLUME_ID="Custom Mint Repacked"
 
-REBUILD_CMD="xorriso -as mkisofs ${ORIG_ARGS} -o \"${ISO_OUTPUT}\" \"${EXTRACT_DIR}\""
+log "Rebuilding ISO with explicit xorriso parameters..."
+{
+    echo "Volume ID: $VOLUME_ID"
+    echo "Output ISO: $ISO_OUTPUT"
+    echo "Source tree: $EXTRACT_DIR"
+} > "$BUILD_LOG"
 
-log "Rebuilding ISO..."
-printf '%s\n' "$REBUILD_CMD" | tee "${WORKDIR}/rebuild-command.sh" >/dev/null
-eval "$REBUILD_CMD" >/dev/null 2>&1 || die "ISO rebuild failed"
+rebuild_iso_explicit "$EXTRACT_DIR" "$ISO_OUTPUT" "$VOLUME_ID" || die "ISO rebuild failed"
 
 [[ -f "$ISO_OUTPUT" ]] || die "Rebuilt ISO was not created"
 log "Repacked ISO created at: $ISO_OUTPUT"
@@ -476,4 +507,4 @@ launch_qemu "$DEV" "$BOOT_MODE" "$OVMF_CODE"
 
 log "All steps completed successfully."
 log "Artifacts:"
-printf '  %s\n' "$ISO_OUTPUT" "$REPORT_FILE" "$PATCH_LOG" "$HASH_REPORT"
+printf '  %s\n' "$ISO_OUTPUT" "$PATCH_LOG" "$HASH_REPORT" "$BUILD_LOG"
