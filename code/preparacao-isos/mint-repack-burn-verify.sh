@@ -8,13 +8,7 @@ Usage:
 
 Examples:
   sudo ./mint-repack-burn-verify.sh \
-    ~/Downloads/linuxmint-22.1-cinnamon-64bit.iso \
-    ~/work/mint-build \
-    /dev/sdb \
-    bios
-
-  sudo ./mint-repack-burn-verify.sh \
-    ~/Downloads/linuxmint-22.1-cinnamon-64bit.iso \
+    ~/Downloads/linuxmint-22.3-cinnamon-64bit.iso \
     ~/work/mint-build \
     /dev/sdb \
     uefi
@@ -26,7 +20,7 @@ What it does:
   4. Rebuilds the ISO as <original>-repacked.iso
   5. Burns the rebuilt ISO to the target device
   6. Fills remaining device space with zeros
-  7. Verifies the ISO area on the device
+  7. Verifies the ISO area byte-for-byte
   8. Computes SHA-256, SHA-512, and BLAKE2b hashes of the full device
   9. Boots the pendrive in QEMU for visual verification
 
@@ -34,7 +28,6 @@ Notes:
   - The target must be the whole device, for example /dev/sdb, not /dev/sdb1
   - This will DESTROY all data on the target device
   - GRUB locking applies only to the GRUB path, not necessarily every BIOS boot path
-  - Dependes on: xorriso rsync perl coreutils findutils grep sed gawk util-linux grub-common qemu-system-x86 ovmf
 EOF
 }
 
@@ -66,19 +59,30 @@ backup_file() {
 }
 
 generate_random_password() {
-    tr -dc 'A-Za-z0-9' < /dev/urandom | head -c 20
+    python3 - <<'PY'
+import secrets
+import string
+alphabet = string.ascii_letters + string.digits
+print(''.join(secrets.choice(alphabet) for _ in range(20)))
+PY
 }
 
 make_pbkdf2_hash() {
     local plain="$1"
     local out
     out="$(
-        printf '%s\n%s\n' "$plain" "$plain" |
-        grub-mkpasswd-pbkdf2 2>/dev/null |
-        awk '/grub.pbkdf2/ {print $NF}'
+expect <<EOF
+log_user 0
+spawn grub-mkpasswd-pbkdf2
+expect "Enter password:"
+send -- "$plain\r"
+expect "Reenter password:"
+send -- "$plain\r"
+expect eof
+EOF
     )"
-    [[ -n "$out" ]] || die "Failed to generate PBKDF2 hash"
-    printf '%s\n' "$out"
+
+    printf '%s\n' "$out" | awk '/grub\.pbkdf2/ {print $NF}'
 }
 
 patch_nopersistent_file() {
@@ -99,14 +103,12 @@ patch_grub_file() {
     [[ -f "$f" ]] || return 0
     backup_file "$f"
 
-    # Add nopersistent if needed
     perl -0pi -e '
         s{
             ^(.*\bboot=casper\b)(?![^\n]*\bnopersistent\b)(.*)$
         }{$1 nopersistent$2}mgx
     ' "$f"
 
-    # Inject authentication block once
     if ! grep -q '^set superusers=' "$f"; then
         local tmpfile
         tmpfile="$(mktemp)"
@@ -119,7 +121,6 @@ patch_grub_file() {
         mv "$tmpfile" "$f"
     fi
 
-    # Keep menuentries bootable without password, but prevent edit/CLI
     perl -0pi -e '
         s{
             ^(\s*menuentry)(?![^\n]*--unrestricted)(?![^\n]*--users)(\s+)
@@ -155,21 +156,22 @@ compute_hash_report() {
 
     local tmpdir
     tmpdir=$(mktemp -d)
-    trap 'rm -rf "$tmpdir"' RETURN
 
-    echo
-    hr
-    echo "WHOLE-DEVICE CRYPTOGRAPHIC HASH REPORT"
-    hr
-    printf "%-18s %s\n" "Device:" "$dev"
-    printf "%-18s %s\n" "Timestamp:" "$timestamp"
-    printf "%-18s %s bytes (%s MiB)\n" "Size:" "$dev_size_bytes" "$dev_size_mib"
-    printf "%-18s %s\n" "Vendor:" "${vendor:-N/A}"
-    printf "%-18s %s\n" "Model:" "${model:-N/A}"
-    printf "%-18s %s\n" "Serial:" "${serial:-N/A}"
-    hr
-    echo "Computing hashes. This may take a while."
-    echo
+    {
+        echo
+        hr
+        echo "WHOLE-DEVICE CRYPTOGRAPHIC HASH REPORT"
+        hr
+        printf "%-18s %s\n" "Device:" "$dev"
+        printf "%-18s %s\n" "Timestamp:" "$timestamp"
+        printf "%-18s %s bytes (%s MiB)\n" "Size:" "$dev_size_bytes" "$dev_size_mib"
+        printf "%-18s %s\n" "Vendor:" "${vendor:-N/A}"
+        printf "%-18s %s\n" "Model:" "${model:-N/A}"
+        printf "%-18s %s\n" "Serial:" "${serial:-N/A}"
+        hr
+        echo "Computing hashes. This may take a while."
+        echo
+    } | tee "$report_file"
 
     echo "Calculating SHA-256..."
     local sha256
@@ -199,8 +201,9 @@ compute_hash_report() {
         printf "sha512  %s  %s\n" "$sha512" "$dev"
         printf "blake2b %s  %s\n" "$blake2b" "$dev"
         hr
-    } | tee "$report_file"
+    } | tee -a "$report_file"
 
+    rm -rf "$tmpdir"
     echo
     log "Hash report saved to: $report_file"
 }
@@ -235,9 +238,9 @@ launch_qemu() {
     fi
 }
 
-# --------------------------------------------------
+# -------------------------------
 # argument parsing
-# --------------------------------------------------
+# -------------------------------
 
 [[ $# -lt 3 || $# -gt 4 ]] && usage && exit 1
 
@@ -269,8 +272,9 @@ need_cmd grep
 need_cmd mktemp
 need_cmd find
 need_cmd grub-mkpasswd-pbkdf2
+need_cmd python3
+need_cmd expect
 need_cmd tr
-need_cmd head
 need_cmd dd
 need_cmd cmp
 need_cmd sha256sum
@@ -327,13 +331,14 @@ lsblk -o NAME,SIZE,TYPE,MOUNTPOINT "$DEV"
 echo
 confirm "This will erase ALL data on $DEV. Continue?" || exit 1
 
-# --------------------------------------------------
+# -------------------------------
 # repack ISO
-# --------------------------------------------------
+# -------------------------------
 
 log "Generating random GRUB password and PBKDF2 hash..."
 GRUB_PASSWORD="$(generate_random_password)"
 GRUB_PBKDF2_HASH="$(make_pbkdf2_hash "$GRUB_PASSWORD")"
+[[ -n "$GRUB_PBKDF2_HASH" ]] || die "Failed to capture GRUB PBKDF2 hash"
 
 log "Extracting ISO contents..."
 xorriso -osirrox on -indev "$ISO_INPUT" -extract / "$EXTRACT_DIR" >/dev/null 2>&1 || \
@@ -422,9 +427,9 @@ eval "$REBUILD_CMD" >/dev/null 2>&1 || die "ISO rebuild failed"
 [[ -f "$ISO_OUTPUT" ]] || die "Rebuilt ISO was not created"
 log "Repacked ISO created at: $ISO_OUTPUT"
 
-# --------------------------------------------------
+# -------------------------------
 # burn and verify
-# --------------------------------------------------
+# -------------------------------
 
 safe_unmount_children "$DEV"
 
@@ -457,15 +462,15 @@ else
     die "ISO area verification failed"
 fi
 
-# --------------------------------------------------
+# -------------------------------
 # hash report
-# --------------------------------------------------
+# -------------------------------
 
 compute_hash_report "$DEV" "$HASH_REPORT"
 
-# --------------------------------------------------
+# -------------------------------
 # qemu boot verification
-# --------------------------------------------------
+# -------------------------------
 
 launch_qemu "$DEV" "$BOOT_MODE" "$OVMF_CODE"
 
