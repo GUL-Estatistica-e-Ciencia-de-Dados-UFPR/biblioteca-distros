@@ -4,30 +4,41 @@ set -Eeuo pipefail
 usage() {
     cat <<'EOF'
 Usage:
-  sudo ./mint-repack-burn-verify.sh /path/to/linuxmint.iso /path/to/workdir /dev/sdX [bios|uefi]
+  sudo ./mint-repack-burn-verify-sign.sh ISO_PATH WORKDIR DEVICE [bios|uefi] [GPG_KEY_ID]
 
 Examples:
-  sudo ./mint-repack-burn-verify.sh \
-    ~/Downloads/linuxmint-22.3-cinnamon-64bit.iso \
-    ~/work/mint-build \
+  sudo ./mint-repack-burn-verify-sign.sh \
+    linuxmint-22.3-cinnamon-64bit.iso \
+    working_dir \
     /dev/sdb \
     uefi
 
+  sudo ./mint-repack-burn-verify-sign.sh \
+    linuxmint-22.3-cinnamon-64bit.iso \
+    working_dir \
+    /dev/sdb \
+    uefi \
+    0xDEADBEEFCAFEBABE
+
 What it does:
-  1. Extracts the ISO
-  2. Adds "nopersistent" to boot=casper lines
-  3. Locks GRUB editing and CLI with a random password that is discarded
-  4. Rebuilds the ISO as <original>-repacked.iso
-  5. Burns the rebuilt ISO to the target device
-  6. Fills remaining device space with zeros
-  7. Verifies the ISO area byte-for-byte
-  8. Computes SHA-256, SHA-512, and BLAKE2b hashes of the full device
-  9. Boots the pendrive in QEMU for visual verification
+  1. Extracts the ISO into WORKDIR/extract
+  2. Extracts boot images into WORKDIR/boot_images
+  3. Adds "nopersistent" to boot=casper lines
+  4. Locks GRUB editing and CLI with a random password that is discarded
+  5. Rebuilds the ISO as <original>-repacked.iso
+  6. Burns the rebuilt ISO to the target device
+  7. Fills remaining device space with zeros
+  8. Verifies the ISO area byte-for-byte
+  9. Generates SHA-256, SHA-512, and BLAKE2b hashes of the full device
+  10. Generates an ISO SHA-256 report
+  11. Signs all generated report files with GPG detached armored signatures
+  12. Boots the pendrive in QEMU for visual verification
 
 Notes:
-  - The target must be the whole device, for example /dev/sdb, not /dev/sdb1
-  - This will DESTROY all data on the target device
-  - GRUB locking applies only to the GRUB path, not necessarily every BIOS boot path
+  - DEVICE must be the whole device, for example /dev/sdb, not /dev/sdb1
+  - This will DESTROY all data on DEVICE
+  - GPG_KEY_ID is optional; if omitted, the default secret key is used
+  - GRUB locking applies to the GRUB path
 EOF
 }
 
@@ -101,7 +112,7 @@ expect {
 EOF
     )" || die "grub-mkpasswd-pbkdf2 interaction failed"
 
-    [[ -n "$hash" ]] || die "Failed to extract GRUB PBKDF2 hash from grub-mkpasswd-pbkdf2 output"
+    [[ -n "$hash" ]] || die "Failed to extract GRUB PBKDF2 hash"
     printf '%s\n' "$hash"
 }
 
@@ -162,6 +173,14 @@ safe_unmount_children() {
     done
 }
 
+get_volume_id() {
+    local iso="$1"
+    local vid
+    vid="$(isoinfo -d -i "$iso" 2>/dev/null | awk -F': ' '/Volume id:/ {print $2; exit}')"
+    [[ -n "$vid" ]] || vid="LINUX_MINT_REPACKED"
+    printf '%s\n' "$vid"
+}
+
 compute_hash_report() {
     local dev="$1"
     local report_file="$2"
@@ -178,7 +197,6 @@ compute_hash_report() {
     tmpdir=$(mktemp -d)
 
     {
-        echo
         hr
         echo "WHOLE-DEVICE CRYPTOGRAPHIC HASH REPORT"
         hr
@@ -224,8 +242,72 @@ compute_hash_report() {
     } | tee -a "$report_file"
 
     rm -rf "$tmpdir"
-    echo
     log "Hash report saved to: $report_file"
+}
+
+compute_iso_sha256_report() {
+    local iso="$1"
+    local report_file="$2"
+    local ts
+    ts="$(date '+%Y-%m-%d %H:%M:%S %Z')"
+
+    {
+        hr
+        echo "REPACKED ISO SHA-256 REPORT"
+        hr
+        printf "%-18s %s\n" "Timestamp:" "$ts"
+        printf "%-18s %s\n" "ISO:" "$iso"
+        printf "%-18s %s bytes\n" "Size:" "$(stat -c '%s' "$iso")"
+        hr
+        sha256sum "$iso"
+        hr
+    } | tee "$report_file"
+
+    log "ISO SHA-256 report saved to: $report_file"
+}
+
+write_burn_report() {
+    local report_file="$1"
+    local iso="$2"
+    local dev="$3"
+    local iso_size="$4"
+    local dev_size="$5"
+    local remaining="$6"
+
+    {
+        hr
+        echo "BURN AND VERIFY REPORT"
+        hr
+        printf "%-18s %s\n" "Timestamp:" "$(date '+%Y-%m-%d %H:%M:%S %Z')"
+        printf "%-18s %s\n" "ISO:" "$iso"
+        printf "%-18s %s\n" "Device:" "$dev"
+        printf "%-18s %s bytes\n" "ISO size:" "$iso_size"
+        printf "%-18s %s bytes\n" "Device size:" "$dev_size"
+        printf "%-18s %s bytes\n" "Zero-filled tail:" "$remaining"
+        printf "%-18s %s\n" "ISO area verify:" "OK"
+        hr
+    } | tee "$report_file"
+
+    log "Burn report saved to: $report_file"
+}
+
+sign_report_files() {
+    local key_id="$1"
+    shift
+    local reports=("$@")
+
+    [[ ${#reports[@]} -gt 0 ]] || return 0
+
+    local gpg_args=(gpg --batch --yes --armor --detach-sign)
+    if [[ -n "$key_id" ]]; then
+        gpg_args+=(--local-user "$key_id")
+    fi
+
+    for f in "${reports[@]}"; do
+        [[ -f "$f" ]] || die "Cannot sign missing report file: $f"
+        "${gpg_args[@]}" -o "${f}.asc" "$f" || die "GPG signing failed for: $f"
+        log "Signed: ${f}.asc"
+    done
 }
 
 launch_qemu() {
@@ -258,49 +340,13 @@ launch_qemu() {
     fi
 }
 
-rebuild_iso_explicit() {
-    local extract_dir="$1"
-    local output_iso="$2"
-    local volume_id="$3"
-
-    local mbr_bin=""
-    local efi_img=""
-    local bios_bin=""
-    local boot_cat="isolinux/boot.cat"
-
-    [[ -f "$extract_dir/isolinux/isohdpfx.bin" ]] && mbr_bin="$extract_dir/isolinux/isohdpfx.bin"
-    [[ -f "$extract_dir/boot/grub/efi.img" ]] && efi_img="boot/grub/efi.img"
-    [[ -f "$extract_dir/isolinux/isolinux.bin" ]] && bios_bin="isolinux/isolinux.bin"
-
-    [[ -n "$mbr_bin" ]] || die "Could not find isolinux/isohdpfx.bin in extracted ISO"
-    [[ -n "$efi_img" ]] || die "Could not find boot/grub/efi.img in extracted ISO"
-    [[ -n "$bios_bin" ]] || die "Could not find isolinux/isolinux.bin in extracted ISO"
-
-    xorriso -as mkisofs \
-      -r \
-      -V "$volume_id" \
-      -o "$output_iso" \
-      -J -joliet-long -l \
-      -iso-level 3 \
-      -isohybrid-mbr "$mbr_bin" \
-      -c "$boot_cat" \
-      -b "$bios_bin" \
-      -no-emul-boot \
-      -boot-load-size 4 \
-      -boot-info-table \
-      -eltorito-alt-boot \
-      -e "$efi_img" \
-      -no-emul-boot \
-      -isohybrid-gpt-basdat \
-      "$extract_dir"
-}
-
-[[ $# -lt 3 || $# -gt 4 ]] && usage && exit 1
+[[ $# -lt 3 || $# -gt 5 ]] && usage && exit 1
 
 ISO_INPUT="$(readlink -f "$1")"
 WORKDIR="$(readlink -f "$2")"
 DEV="$3"
 BOOT_MODE="${4:-bios}"
+GPG_KEY_ID="${5:-}"
 
 [[ -f "$ISO_INPUT" ]] || die "ISO file not found: $ISO_INPUT"
 mkdir -p "$WORKDIR"
@@ -338,7 +384,12 @@ need_cmd blockdev
 need_cmd lsblk
 need_cmd umount
 need_cmd qemu-system-x86_64
+need_cmd gpg
 need_cmd isoinfo
+
+if ! gpg --list-secret-keys >/dev/null 2>&1; then
+    die "No GPG secret key available. Import or create one before running the script."
+fi
 
 OVMF_CODE=""
 if [[ "$BOOT_MODE" == "uefi" ]]; then
@@ -360,24 +411,27 @@ ISO_DIR="$(dirname "$ISO_INPUT")"
 ISO_STEM="${ISO_BASENAME%.iso}"
 ISO_OUTPUT="${ISO_DIR}/${ISO_STEM}-repacked.iso"
 
-TMP_ROOT="$(mktemp -d)"
-EXTRACT_DIR="${TMP_ROOT}/extract"
+EXTRACT_DIR="${WORKDIR}/extract"
+BOOT_IMAGES_DIR="${WORKDIR}/boot_images"
+
 PATCH_LOG="${WORKDIR}/patch-report.txt"
+BUILD_LOG="${WORKDIR}/rebuild-report.txt"
+BURN_REPORT="${WORKDIR}/burn-report.txt"
 HASH_REPORT="${WORKDIR}/$(basename "$DEV").hash-report.txt"
-BUILD_LOG="${WORKDIR}/rebuild-command.txt"
+ISO_HASH_REPORT="${WORKDIR}/repacked-iso-sha256.txt"
 
-cleanup() {
-    rm -rf "$TMP_ROOT"
-}
-trap cleanup EXIT
-
-mkdir -p "$EXTRACT_DIR"
+mkdir -p "$EXTRACT_DIR" "$BOOT_IMAGES_DIR"
 
 log "Input ISO: $ISO_INPUT"
 log "Working directory: $WORKDIR"
 log "Target device: $DEV"
 log "Output repacked ISO: $ISO_OUTPUT"
 log "Boot mode for QEMU: $BOOT_MODE"
+if [[ -n "$GPG_KEY_ID" ]]; then
+    log "GPG signing key: $GPG_KEY_ID"
+else
+    log "GPG signing key: default secret key"
+fi
 echo
 
 echo "Current block device layout:"
@@ -385,14 +439,24 @@ lsblk -o NAME,SIZE,TYPE,MOUNTPOINT "$DEV"
 echo
 confirm "This will erase ALL data on $DEV. Continue?" || exit 1
 
+rm -rf "$EXTRACT_DIR" "$BOOT_IMAGES_DIR"
+mkdir -p "$EXTRACT_DIR" "$BOOT_IMAGES_DIR"
+
 log "Generating random GRUB password and PBKDF2 hash..."
 GRUB_PASSWORD="$(generate_random_password)"
 GRUB_PBKDF2_HASH="$(make_pbkdf2_hash "$GRUB_PASSWORD")"
 [[ -n "$GRUB_PBKDF2_HASH" ]] || die "Failed to capture GRUB PBKDF2 hash"
 
-log "Extracting ISO contents..."
+log "Extracting ISO filesystem..."
 xorriso -osirrox on -indev "$ISO_INPUT" -extract / "$EXTRACT_DIR" >/dev/null 2>&1 || \
     die "Failed to extract ISO contents"
+
+log "Extracting boot images..."
+xorriso -osirrox on -indev "$ISO_INPUT" -extract_boot_images "$BOOT_IMAGES_DIR" >/dev/null 2>&1 || \
+    die "Failed to extract boot images"
+
+MBR_IMAGE="${BOOT_IMAGES_DIR}/mbr_code_isohybrid.img"
+[[ -f "$MBR_IMAGE" ]] || die "Expected MBR image not found: $MBR_IMAGE"
 
 : > "$PATCH_LOG"
 
@@ -450,22 +514,63 @@ grep -RIn '^set superusers=' "$EXTRACT_DIR" >/dev/null 2>&1 || \
 grep -RIn '^password_pbkdf2 ' "$EXTRACT_DIR" >/dev/null 2>&1 || \
     die "GRUB password_pbkdf2 line was not inserted"
 
-log "Patched files:"
-cat "$PATCH_LOG"
-
 unset GRUB_PASSWORD
 
-VOLUME_ID="$(isoinfo -d -i "$ISO_INPUT" 2>/dev/null | awk -F': ' '/Volume id:/ {print $2; exit}')"
-[[ -n "${VOLUME_ID:-}" ]] || VOLUME_ID="Custom Mint Repacked"
+VOLUME_ID="$(get_volume_id "$ISO_INPUT")"
+rm -f "$ISO_OUTPUT"
 
-log "Rebuilding ISO with explicit xorriso parameters..."
 {
-    echo "Volume ID: $VOLUME_ID"
-    echo "Output ISO: $ISO_OUTPUT"
-    echo "Source tree: $EXTRACT_DIR"
-} > "$BUILD_LOG"
+    hr
+    echo "REBUILD REPORT"
+    hr
+    printf "%-18s %s\n" "Timestamp:" "$(date '+%Y-%m-%d %H:%M:%S %Z')"
+    printf "%-18s %s\n" "Input ISO:" "$ISO_INPUT"
+    printf "%-18s %s\n" "Output ISO:" "$ISO_OUTPUT"
+    printf "%-18s %s\n" "Volume ID:" "$VOLUME_ID"
+    printf "%-18s %s\n" "Extract dir:" "$EXTRACT_DIR"
+    printf "%-18s %s\n" "Boot images dir:" "$BOOT_IMAGES_DIR"
+    printf "%-18s %s\n" "MBR image:" "$MBR_IMAGE"
+    hr
+    cat "$PATCH_LOG"
+    hr
+    echo "xorriso -as mkisofs \\"
+    echo "  -r \\"
+    echo "  -V \"$VOLUME_ID\" \\"
+    echo "  -o \"$ISO_OUTPUT\" \\"
+    echo "  -J -joliet-long -l \\"
+    echo "  -iso-level 3 \\"
+    echo "  -isohybrid-mbr \"$MBR_IMAGE\" \\"
+    echo "  -c isolinux/boot.cat \\"
+    echo "  -b isolinux/isolinux.bin \\"
+    echo "  -no-emul-boot \\"
+    echo "  -boot-load-size 4 \\"
+    echo "  -boot-info-table \\"
+    echo "  -eltorito-alt-boot \\"
+    echo "  -e boot/grub/efi.img \\"
+    echo "  -no-emul-boot \\"
+    echo "  -isohybrid-gpt-basdat \\"
+    echo "  \"$EXTRACT_DIR\""
+    hr
+} | tee "$BUILD_LOG"
 
-rebuild_iso_explicit "$EXTRACT_DIR" "$ISO_OUTPUT" "$VOLUME_ID" || die "ISO rebuild failed"
+log "Rebuilding ISO..."
+xorriso -as mkisofs \
+  -r \
+  -V "$VOLUME_ID" \
+  -o "$ISO_OUTPUT" \
+  -J -joliet-long -l \
+  -iso-level 3 \
+  -isohybrid-mbr "$MBR_IMAGE" \
+  -c isolinux/boot.cat \
+  -b isolinux/isolinux.bin \
+  -no-emul-boot \
+  -boot-load-size 4 \
+  -boot-info-table \
+  -eltorito-alt-boot \
+  -e boot/grub/efi.img \
+  -no-emul-boot \
+  -isohybrid-gpt-basdat \
+  "$EXTRACT_DIR" || die "ISO rebuild failed"
 
 [[ -f "$ISO_OUTPUT" ]] || die "Rebuilt ISO was not created"
 log "Repacked ISO created at: $ISO_OUTPUT"
@@ -495,16 +600,31 @@ if (( REMAINING > 0 )); then
 fi
 
 log "Verifying ISO area byte-for-byte..."
-if cmp -n "$REPACKED_ISO_SIZE" "$ISO_OUTPUT" "$DEV" >/dev/null; then
-    log "ISO area verification: OK"
-else
-    die "ISO area verification failed"
-fi
+cmp -n "$REPACKED_ISO_SIZE" "$ISO_OUTPUT" "$DEV" >/dev/null || die "ISO area verification failed"
+log "ISO area verification: OK"
 
+write_burn_report "$BURN_REPORT" "$ISO_OUTPUT" "$DEV" "$REPACKED_ISO_SIZE" "$DEV_SIZE" "$REMAINING"
 compute_hash_report "$DEV" "$HASH_REPORT"
+compute_iso_sha256_report "$ISO_OUTPUT" "$ISO_HASH_REPORT"
+
+log "Signing generated report files with GPG..."
+REPORT_FILES=(
+    "$PATCH_LOG"
+    "$BUILD_LOG"
+    "$BURN_REPORT"
+    "$HASH_REPORT"
+    "$ISO_HASH_REPORT"
+)
+sign_report_files "$GPG_KEY_ID" "${REPORT_FILES[@]}"
 
 launch_qemu "$DEV" "$BOOT_MODE" "$OVMF_CODE"
 
 log "All steps completed successfully."
 log "Artifacts:"
-printf '  %s\n' "$ISO_OUTPUT" "$PATCH_LOG" "$HASH_REPORT" "$BUILD_LOG"
+printf '  %s\n' \
+  "$ISO_OUTPUT" \
+  "$PATCH_LOG" "${PATCH_LOG}.asc" \
+  "$BUILD_LOG" "${BUILD_LOG}.asc" \
+  "$BURN_REPORT" "${BURN_REPORT}.asc" \
+  "$HASH_REPORT" "${HASH_REPORT}.asc" \
+  "$ISO_HASH_REPORT" "${ISO_HASH_REPORT}.asc"
