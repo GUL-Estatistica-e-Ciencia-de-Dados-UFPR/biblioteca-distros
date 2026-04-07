@@ -1,0 +1,238 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[portuguese]{babel}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+
+\geometry{
+    a4paper,
+    left=3cm,
+    right=3cm,
+    top=3cm,
+    bottom=3cm
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+    pdftitle={Regulamento de Uso da Biblioteca de Pendrives Linux},
+    pdfauthor={GULECD/UFPR},
+    pdfsubject={Regulamento},
+    breaklinks=true
+}
+
+\titleformat{\section}
+{\normalfont\Large\bfseries}{\thesection}{1em}{}
+
+\titleformat{\subsection}
+{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}
+{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+\titlespacing{\section}{0pt}{2ex}{1ex}
+\titlespacing{\subsection}{0pt}{1ex}{0.5ex}
+\titlespacing{\subsubsection}{0pt}{0.5ex}{0.25ex}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+\lhead{Regulamento de Uso da Biblioteca de Pendrives Linux}
+\cfoot{}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\LARGE\bfseries Regulamento de Uso da Biblioteca de Pendrives Linux\par}
+    \vspace{2cm}
+    
+    {\large GULECD/UFPR -- Grupo de Usuários Linux e Software Livre\par}
+    {\large Estatística e Ciência de Dados -- UFPR\par}
+    
+    \vspace{3cm}
+    
+    \today
+    
+    \thispagestyle{empty}
+\end{titlepage}
+\clearpage
+
+\section{Introdução}
+
+A biblioteca de pendrives Linux do GULECD/UFPR tem como objetivo facilitar o acesso a sistemas operacionais baseados em software livre, promovendo aprendizado prático, autonomia tecnológica e disseminação do uso de Linux entre os membros do grupo. Este regulamento estabelece as diretrizes para utilização responsável dos dispositivos, garantindo sua integridade, rastreabilidade e disponibilidade para toda a comunidade.
+
+\section{Finalidade da Biblioteca}
+
+A biblioteca consiste em um conjunto de pendrives contendo distribuições Linux prontas para uso (live systems), permitindo:
+
+\begin{itemize}
+    \item Teste de sistemas operacionais sem instalação
+    \item Instalação de Linux em máquinas pessoais
+    \item Experimentação e aprendizado
+\end{itemize}
+
+\section{Procedimento de Retirada}
+
+A retirada de um pendrive pode ocorrer de duas formas:
+
+\begin{enumerate}
+    \item Diretamente com um membro que esteja em posse de um pendrive
+    \item Em ponto físico previamente definido (quando aplicável)
+\end{enumerate}
+
+No momento da retirada, o usuário deverá obrigatoriamente:
+
+\begin{itemize}
+    \item Localizar o QR Code associado ao pendrive
+    \item Realizar o escaneamento
+    \item Preencher o formulário correspondente com:
+    \begin{itemize}
+        \item Nome
+        \item Data de retirada
+        \item Identificação do dispositivo
+    \end{itemize}
+\end{itemize}
+
+\section{Prazo de Utilização}
+
+O tempo máximo de permanência com o pendrive é de 7 dias corridos. Após este período, o dispositivo deve ser:
+
+\begin{enumerate}
+    \item Devolvido, ou
+    \item Repassado diretamente a outro membro
+\end{enumerate}
+
+Em caso de repasse, o novo usuário também deverá preencher o formulário.
+
+\section{Procedimento de Devolução ou Repasse}
+
+No momento da devolução ou transferência:
+
+\begin{itemize}
+    \item O usuário deve novamente escanear o QR Code
+    \item Preencher o formulário indicando:
+    \begin{itemize}
+        \item Data de devolução ou repasse
+        \item Destino (devolução ou nome do próximo usuário)
+    \end{itemize}
+\end{itemize}
+
+\section{Integridade e Uso dos Dispositivos}
+
+As pendrives da biblioteca são configuradas como read-only, sendo estritamente proibido:
+
+\begin{itemize}
+    \item Modificar qualquer arquivo contido no dispositivo
+    \item Utilizar o pendrive para armazenamento pessoal
+    \item Alterar a estrutura da distribuição
+\end{itemize}
+
+O uso deve limitar-se exclusivamente à execução do sistema operacional.
+
+\section{Verificação de Integridade (Checksums)}
+
+Cada pendrive possui checksums previamente definidos.
+
+Antes da utilização, recomenda-se que o usuário:
+
+\begin{enumerate}
+    \item Verifique o checksum da imagem presente no dispositivo
+    \item Compare com o valor oficial listado
+\end{enumerate}
+
+Caso haja divergência:
+
+\begin{itemize}
+    \item Não utilizar o pendrive
+    \item Notificar imediatamente a coordenação do grupo
+\end{itemize}
+
+\section{Uso Responsável}
+
+É estritamente proibido utilizar as pendrives para:
+
+\begin{itemize}
+    \item Atividades ilegais
+    \item Violação de normas institucionais
+    \item Qualquer uso que comprometa a integridade do grupo
+\end{itemize}
+
+O uso é de responsabilidade integral do usuário.
+
+\section{Sistema de Funcionamento}
+
+A biblioteca opera sob um sistema de confiança mútua (honra) entre os membros.
+
+Espera-se que todos:
+
+\begin{itemize}
+    \item Respeitem os prazos
+    \item Registrem corretamente retiradas e devoluções
+    \item Preservem os dispositivos
+\end{itemize}
+
+\section{Suporte e Comunicação}
+
+O grupo disponibiliza canais de suporte para auxiliar usuários:
+
+\begin{itemize}
+    \item Canal oficial no WhatsApp
+    \item Membros experientes do grupo
+\end{itemize}
+
+Dúvidas técnicas, problemas ou dificuldades devem ser reportados nesses canais.
+
+\section{Tutoriais de Instalação (Linux Mint)}
+
+Para auxiliar novos usuários, recomenda-se os seguintes tutoriais em português:
+
+\begin{itemize}
+    \item Guia oficial do Linux Mint
+    \item Tutoriais no YouTube (busca recomendada: ``instalar Linux Mint passo a passo'')
+    \item Documentação comunitária e fóruns
+\end{itemize}
+
+Sugere-se priorizar fontes atualizadas e compatíveis com a versão da distribuição presente no pendrive.
+
+\section{Boas Práticas Recomendadas}
+
+\begin{itemize}
+    \item Testar o sistema em modo live antes de instalar
+    \item Fazer backup completo antes de qualquer instalação
+    \item Utilizar preferencialmente computadores pessoais
+    \item Evitar uso em máquinas institucionais sem autorização
+    \item Manter cuidado físico com o dispositivo
+\end{itemize}
+
+\section{Responsabilidade e Conservação}
+
+O usuário é responsável pelo pendrive durante o período de posse.
+
+Em caso de:
+
+\begin{itemize}
+    \item Perda
+    \item Dano físico
+    \item Mau funcionamento
+\end{itemize}
+
+A coordenação deve ser informada imediatamente.
+
+\section{Disposições Finais}
+
+Este regulamento visa garantir o uso eficiente, seguro e sustentável da biblioteca de pendrives Linux. O descumprimento das regras pode resultar em restrições de uso futuras.
+
+A iniciativa depende da colaboração coletiva para seu funcionamento adequado e continuidade.
+
+\end{document}
