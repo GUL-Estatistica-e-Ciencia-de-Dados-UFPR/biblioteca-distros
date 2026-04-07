@@ -69,20 +69,40 @@ PY
 
 make_pbkdf2_hash() {
     local plain="$1"
-    local out
-    out="$(
+    local hash
+
+    hash="$(
 expect <<EOF
 log_user 0
-spawn grub-mkpasswd-pbkdf2
-expect "Enter password:"
-send -- "$plain\r"
-expect "Reenter password:"
-send -- "$plain\r"
-expect eof
-EOF
-    )"
+set timeout 30
+spawn env LC_ALL=C LANG=C grub-mkpasswd-pbkdf2
 
-    printf '%s\n' "$out" | awk '/grub\.pbkdf2/ {print $NF}'
+expect {
+    -re {Enter password:.*} {}
+    timeout { exit 10 }
+    eof { exit 11 }
+}
+send -- "$plain\r"
+
+expect {
+    -re {Reenter password:.*} {}
+    timeout { exit 12 }
+    eof { exit 13 }
+}
+send -- "$plain\r"
+
+expect {
+    -re {(grub\.pbkdf2\.[^\r\n ]+)} {
+        puts \$expect_out(1,string)
+    }
+    timeout { exit 14 }
+    eof { exit 15 }
+}
+EOF
+    )" || die "grub-mkpasswd-pbkdf2 interaction failed"
+
+    [[ -n "$hash" ]] || die "Failed to extract GRUB PBKDF2 hash from grub-mkpasswd-pbkdf2 output"
+    printf '%s\n' "$hash"
 }
 
 patch_nopersistent_file() {
@@ -238,10 +258,6 @@ launch_qemu() {
     fi
 }
 
-# -------------------------------
-# argument parsing
-# -------------------------------
-
 [[ $# -lt 3 || $# -gt 4 ]] && usage && exit 1
 
 ISO_INPUT="$(readlink -f "$1")"
@@ -330,10 +346,6 @@ echo "Current block device layout:"
 lsblk -o NAME,SIZE,TYPE,MOUNTPOINT "$DEV"
 echo
 confirm "This will erase ALL data on $DEV. Continue?" || exit 1
-
-# -------------------------------
-# repack ISO
-# -------------------------------
 
 log "Generating random GRUB password and PBKDF2 hash..."
 GRUB_PASSWORD="$(generate_random_password)"
@@ -427,10 +439,6 @@ eval "$REBUILD_CMD" >/dev/null 2>&1 || die "ISO rebuild failed"
 [[ -f "$ISO_OUTPUT" ]] || die "Rebuilt ISO was not created"
 log "Repacked ISO created at: $ISO_OUTPUT"
 
-# -------------------------------
-# burn and verify
-# -------------------------------
-
 safe_unmount_children "$DEV"
 
 REPACKED_ISO_SIZE=$(stat -c '%s' "$ISO_OUTPUT")
@@ -462,15 +470,7 @@ else
     die "ISO area verification failed"
 fi
 
-# -------------------------------
-# hash report
-# -------------------------------
-
 compute_hash_report "$DEV" "$HASH_REPORT"
-
-# -------------------------------
-# qemu boot verification
-# -------------------------------
 
 launch_qemu "$DEV" "$BOOT_MODE" "$OVMF_CODE"
 
