@@ -78,6 +78,8 @@ Dúvidas sobre uso das pendrives, instalação ou Linux em geral podem ser direc
 - Canal oficial do GULECD/UFPR no WhatsApp 
 https://chat.whatsapp.com/I2ARC7MtsPqH6RQhUqS06n 
 
+- Tutoriais para a verificação de integridade da pendrive podem ser acessados na pasta `docs/tutoriais/`
+
 ---
 
 ## ⚠️ Aviso
