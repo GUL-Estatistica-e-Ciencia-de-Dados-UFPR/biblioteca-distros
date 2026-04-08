@@ -167,7 +167,7 @@ sudo cmp -n "$ISO_SIZE" "$ISO" /dev/sdb
 
 ---
 
-## 🧪 Etapa 7: Teste funcional adicional (recomendado)
+## 🧪 Etapa 7: Após verificar a integridade do pendrive
 
 1. Insira o pendrive  
 2. Reinicie o computador  
