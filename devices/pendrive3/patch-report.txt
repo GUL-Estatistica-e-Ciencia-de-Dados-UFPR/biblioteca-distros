@@ -1,0 +1,3 @@
+PATCHED GRUB: /home/marcos/Projects/gulecd/isos/working_dir/extract/boot/grub/grub.cfg
+PATCHED NOPERSISTENT: /home/marcos/Projects/gulecd/isos/working_dir/extract/isolinux/isolinux.cfg
+PATCHED EXTRA NOPERSISTENT: /home/marcos/Projects/gulecd/isos/working_dir/extract/isolinux/live.cfg

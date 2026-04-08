@@ -8,8 +8,9 @@ Estatística e Ciência de Dados – UFPR
 
 Este repositório contém:
 
-- 📄 O **regulamento oficial de uso** da biblioteca de pendrives Linux do GULECD/UFPR  
-- ⚙️ Scripts para **criação, padronização e verificação** das imagens utilizadas nas pendrives  
+- 📄 O **regulamento oficial de uso** da biblioteca de pendrives Linux do GULECD/UFPR  (diretório `docs/regulamento`)
+- 📄 Tutoriais para a verificação manual de integridade das pendrives (diretório `docs/tutoriais`) 
+- ⚙️ Scripts para **criação, padronização e verificação** das imagens utilizadas nas pendrives (diretório `code`)
 
 Este projeto é uma das iniciativas fundadoras do grupo, com foco em facilitar o acesso a sistemas Linux e promover aprendizado prático em software livre.
 
@@ -39,11 +40,11 @@ A biblioteca opera com base em regras simples, focadas em rastreabilidade e resp
 - ⏱️ **Prazo máximo de uso: 7 dias**  
 - 🔁 Possibilidade de **repasse direto entre membros**  
 - 🔒 Pendrives são **read-only** (não devem ser modificadas)  
-- 🧪 **Verificação de checksum obrigatória/recomendada** antes do uso  
+- 🧪 **Verificação de checksum recomendada** antes do uso  
 - ⚠️ Uso proibido para atividades ilegais  
 - 🤝 Sistema baseado em **confiança entre os membros**  
 
-O regulamento completo está disponível no diretório `/docs//regulamento`.
+O regulamento completo está disponível no diretório `/docs/regulamento`.
 
 ---
 
@@ -53,7 +54,7 @@ Os scripts disponíveis neste repositório têm como finalidade:
 
 - Criar imagens bootáveis padronizadas  
 - Garantir integridade das distribuições  
-- Automatizar geração de checksums  
+- Automatizar geração de devices e verificações  
 - Facilitar replicação das pendrives  
 
 ---

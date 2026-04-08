@@ -1,0 +1,208 @@
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+PHYSICAL DEVICE REPORT
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Timestamp:               2026-04-07 14:18:05 -03
+Device:                  /dev/sdb
+Kernel name:             sdb
+Resolved path:           /dev/sdb
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+LSBLK SHORT
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+NAME   PATH       SIZE TYPE TRAN MODEL        VENDOR   SERIAL               ROTA HOTPLUG MOUNTPOINT
+sdb    /dev/sdb  28.7G disk usb  Cruzer Blade SanDisk  00016801092024124419    1       1 
+├─sdb1 /dev/sdb1  6.2G part                                                    1       1 
+├─sdb2 /dev/sdb2    5M part                                                    1       1 
+├─sdb3 /dev/sdb3  300K part                                                    1       1 
+└─sdb4 /dev/sdb4 22.5G part                                                    1       1 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+LSBLK FULL
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALIGNMENT ID-LINK                                                 ID                                                  DISC-ALN DAX DISC-GRAN DISK-SEQ DISC-MAX DISC-ZERO FSAVAIL FSROOTS FSSIZE FSTYPE  FSUSED FSUSE% FSVER            GROUP HCTL       HOTPLUG KNAME LABEL                    LOG-SEC MAJ:MIN MAJ MIN MIN-IO MODE       MODEL         MQ NAME   OPT-IO OWNER PARTFLAGS                            PARTLABEL PARTN PARTTYPE                             PARTTYPENAME         PARTUUID                             PATH      PHY-SEC PKNAME PTTYPE PTUUID                                RA RAND  REV RM RO ROTA RQ-SIZE SCHED       SERIAL                SIZE    START STATE   SUBSYSTEMS         MOUNTPOINT MOUNTPOINTS TRAN TYPE UUID                                 VENDOR   WSAME WWN ZONED ZONE-SZ ZONE-WGRAN ZONE-APP ZONE-NR ZONE-OMAX ZONE-AMAX
+        0 usb-SanDisk_Cruzer_Blade_00016801092024124419-0:0       SanDisk_Cruzer_Blade_00016801092024124419-0:0              0   0        0B       62       0B         0                        iso9660               Joliet Extension disk  2:0:0:0          1 sdb   Ubuntu 24.04.4 LTS amd64     512   8:16  8   16     512 brw-rw---- Cruzer Blade   1 sdb         0 root                                                                                                                                                      /dev/sdb      512        gpt    7cd178b0-860e-4729-a4a3-cd7bae592982 128    1 1.00  1  0    1       2 mq-deadline 00016801092024124419 28.7G          running block:scsi:usb:pci                        usb  disk 2026-02-10-01-39-48-00               SanDisk     0B     none       0B         0B       0B       0         0         0
+        0 usb-SanDisk_Cruzer_Blade_00016801092024124419-0:0-part1 SanDisk_Cruzer_Blade_00016801092024124419-0:0-part1        0   0        0B       62       0B         0                        iso9660               Joliet Extension disk                   1 sdb1  Ubuntu 24.04.4 LTS amd64     512   8:17  8   17     512 brw-rw----                1 ├─sdb1      0 root  0x1000000000000001                   ISO9660       1 ebd0a0a2-b9e5-4433-87c0-68b6b72699c7 Microsoft basic data 7cd178b0-860e-4729-a4a2-cd7bae592982 /dev/sdb1     512 sdb    gpt    7cd178b0-860e-4729-a4a3-cd7bae592982 128    1       1  0    1       2 mq-deadline                       6.2G       64         block:scsi:usb:pci                             part 2026-02-10-01-39-48-00                           0B     none       0B         0B       0B       0         0         0
+        0 usb-SanDisk_Cruzer_Blade_00016801092024124419-0:0-part2 SanDisk_Cruzer_Blade_00016801092024124419-0:0-part2        0   0        0B       62       0B         0                        vfat                  FAT12            disk                   1 sdb2  ESP                          512   8:18  8   18     512 brw-rw----                1 ├─sdb2      0 root                                       Appended2     2 c12a7328-f81f-11d2-ba4b-00a0c93ec93b EFI System           7cd178b0-860e-4729-a4a1-cd7bae592982 /dev/sdb2     512 sdb    gpt    7cd178b0-860e-4729-a4a3-cd7bae592982 128    1       1  0    1       2 mq-deadline                         5M 12988432         block:scsi:usb:pci                             part 73B7-988D                                        0B     none       0B         0B       0B       0         0         0
+        0 usb-SanDisk_Cruzer_Blade_00016801092024124419-0:0-part3 SanDisk_Cruzer_Blade_00016801092024124419-0:0-part3        0   0        0B       62       0B         0                                                               disk                   1 sdb3                               512   8:19  8   19     512 brw-rw----                1 ├─sdb3      0 root  0x1000000000000001                   Gap1          3 ebd0a0a2-b9e5-4433-87c0-68b6b72699c7 Microsoft basic data 7cd178b0-860e-4729-a4a0-cd7bae592982 /dev/sdb3     512 sdb    gpt    7cd178b0-860e-4729-a4a3-cd7bae592982 128    1       1  0    1       2 mq-deadline                       300K 12998592         block:scsi:usb:pci                             part                                                  0B     none       0B         0B       0B       0         0         0
+        0 usb-SanDisk_Cruzer_Blade_00016801092024124419-0:0-part4 SanDisk_Cruzer_Blade_00016801092024124419-0:0-part4        0   0        0B       62       0B         0                        ext4                  1.0              disk                   1 sdb4  writable                     512   8:20  8   20     512 brw-rw----                1 └─sdb4      0 root                                                     4 0fc63daf-8483-4772-8e79-3d69d8477de4 Linux filesystem     6c58792b-1ca7-4f88-90a7-66ba1077804e /dev/sdb4     512 sdb    gpt    7cd178b0-860e-4729-a4a3-cd7bae592982 128    1       1  0    1       2 mq-deadline                      22.5G 13000704         block:scsi:usb:pci                             part 55b3804c-efc2-4154-bce8-a575d8709bc1             0B     none       0B         0B       0B       0         0         0
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+BLOCKDEV
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RO    RA   SSZ   BSZ        StartSec            Size   Device
+rw   256   512  4096               0     30784094208   /dev/sdb
+
+Size bytes: 30784094208
+Logical sector size: 512
+Physical sector size: 512
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+BLKID
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/dev/sdb: BLOCK_SIZE="2048" UUID="2026-02-10-01-39-48-00" LABEL="Ubuntu 24.04.4 LTS amd64" TYPE="iso9660" PTUUID="7cd178b0-860e-4729-a4a3-cd7bae592982" PTTYPE="gpt"
+/dev/sdb1: BLOCK_SIZE="2048" UUID="2026-02-10-01-39-48-00" LABEL="Ubuntu 24.04.4 LTS amd64" TYPE="iso9660" PARTLABEL="ISO9660" PARTUUID="7cd178b0-860e-4729-a4a2-cd7bae592982"
+/dev/sdb2: SEC_TYPE="msdos" LABEL_FATBOOT="ESP" LABEL="ESP" UUID="73B7-988D" BLOCK_SIZE="512" TYPE="vfat" PARTLABEL="Appended2" PARTUUID="7cd178b0-860e-4729-a4a1-cd7bae592982"
+/dev/sdb3: PARTLABEL="Gap1" PARTUUID="7cd178b0-860e-4729-a4a0-cd7bae592982"
+/dev/sdb4: LABEL="writable" UUID="55b3804c-efc2-4154-bce8-a575d8709bc1" BLOCK_SIZE="4096" TYPE="ext4" PARTUUID="6c58792b-1ca7-4f88-90a7-66ba1077804e"
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+UDEVADM INFO
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+P: /devices/pci0000:00/0000:00:14.0/usb1/1-3/1-3:1.0/host2/target2:0:0/2:0:0:0/block/sdb
+M: sdb
+J: b8:16
+U: block
+T: disk
+D: b 8:16
+N: sdb
+L: 0
+S: disk/by-id/usb-SanDisk_Cruzer_Blade_00016801092024124419-0:0
+S: disk/by-path/pci-0000:00:14.0-usb-0:3:1.0-scsi-0:0:0:0
+S: disk/by-uuid/2026-02-10-01-39-48-00
+S: disk/by-label/Ubuntu\x2024.04.4\x20LTS\x20amd64
+S: disk/by-path/pci-0000:00:14.0-usbv2-0:3:1.0-scsi-0:0:0:0
+S: disk/by-diskseq/62
+Q: 62
+E: DEVPATH=/devices/pci0000:00/0000:00:14.0/usb1/1-3/1-3:1.0/host2/target2:0:0/2:0:0:0/block/sdb
+E: DEVNAME=/dev/sdb
+E: DEVTYPE=disk
+E: DISKSEQ=62
+E: MAJOR=8
+E: MINOR=16
+E: SUBSYSTEM=block
+E: USEC_INITIALIZED=799673187998
+E: ID_BUS=usb
+E: ID_MODEL=Cruzer_Blade
+E: ID_MODEL_ENC=Cruzer\x20Blade\x20\x20\x20\x20
+E: ID_MODEL_ID=5567
+E: ID_SERIAL=SanDisk_Cruzer_Blade_00016801092024124419-0:0
+E: ID_SERIAL_SHORT=00016801092024124419
+E: ID_VENDOR=SanDisk
+E: ID_VENDOR_ENC=SanDisk\x20
+E: ID_VENDOR_ID=0781
+E: ID_REVISION=1.00
+E: ID_TYPE=disk
+E: ID_INSTANCE=0:0
+E: ID_USB_MODEL=Cruzer_Blade
+E: ID_USB_MODEL_ENC=Cruzer\x20Blade\x20\x20\x20\x20
+E: ID_USB_MODEL_ID=5567
+E: ID_USB_SERIAL=SanDisk_Cruzer_Blade_00016801092024124419-0:0
+E: ID_USB_SERIAL_SHORT=00016801092024124419
+E: ID_USB_VENDOR=SanDisk
+E: ID_USB_VENDOR_ENC=SanDisk\x20
+E: ID_USB_VENDOR_ID=0781
+E: ID_USB_REVISION=1.00
+E: ID_USB_TYPE=disk
+E: ID_USB_INSTANCE=0:0
+E: ID_USB_INTERFACES=:080650:
+E: ID_USB_INTERFACE_NUM=00
+E: ID_USB_DRIVER=usb-storage
+E: ID_PATH_WITH_USB_REVISION=pci-0000:00:14.0-usbv2-0:3:1.0-scsi-0:0:0:0
+E: ID_PATH=pci-0000:00:14.0-usb-0:3:1.0-scsi-0:0:0:0
+E: ID_PATH_TAG=pci-0000_00_14_0-usb-0_3_1_0-scsi-0_0_0_0
+E: ID_FS_BLOCKSIZE=2048
+E: ID_FS_SIZE=6655619072
+E: ID_FS_DATA_PREPARER_ID=XORRISO-1.5.4\x202021.01.30.150001\x2c\x20LIBISOBURN-1.5.4\x2c\x20LIBISOFS-1.5.4\x2c\x20LIBBURN-1.5.4
+E: ID_FS_UUID=2026-02-10-01-39-48-00
+E: ID_FS_UUID_ENC=2026-02-10-01-39-48-00
+E: ID_FS_BOOT_SYSTEM_ID=EL\x20TORITO\x20SPECIFICATION
+E: ID_FS_VERSION=Joliet Extension
+E: ID_FS_LABEL=Ubuntu_24.04.4_LTS_amd64
+E: ID_FS_LABEL_ENC=Ubuntu\x2024.04.4\x20LTS\x20amd64
+E: ID_FS_TYPE=iso9660
+E: ID_FS_USAGE=filesystem
+E: ID_PART_TABLE_UUID=7cd178b0-860e-4729-a4a3-cd7bae592982
+E: ID_PART_TABLE_TYPE=gpt
+E: ID_DRIVE_THUMB=1
+E: DEVLINKS=/dev/disk/by-id/usb-SanDisk_Cruzer_Blade_00016801092024124419-0:0 /dev/disk/by-path/pci-0000:00:14.0-usb-0:3:1.0-scsi-0:0:0:0 /dev/disk/by-uuid/2026-02-10-01-39-48-00 /dev/disk/by-label/Ubuntu\x2024.04.4\x20LTS\x20amd64 /dev/disk/by-path/pci-0000:00:14.0-usbv2-0:3:1.0-scsi-0:0:0:0 /dev/disk/by-diskseq/62
+E: TAGS=:systemd:
+E: CURRENT_TAGS=:systemd:
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SYSFS SNAPSHOT
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/sys/class/block/sdb/device/model: Cruzer Blade    
+/sys/class/block/sdb/device/vendor: SanDisk 
+/sys/class/block/sdb/device/rev: 1.00
+/sys/class/block/sdb/removable: 1
+/sys/class/block/sdb/ro: 0
+/sys/class/block/sdb/size: 60125184
+/sys/class/block/sdb/stat:      454        0    13848      753        0        0        0        0        0      516      753        0        0        0        0        0        0
+/sys/class/block/sdb/device/state: running
+/sys/class/block/sdb/queue/logical_block_size: 512
+/sys/class/block/sdb/queue/physical_block_size: 512
+/sys/class/block/sdb/queue/read_ahead_kb: 128
+/sys/class/block/sdb/queue/rotational: 1
+/sys/class/block/sdb/queue/max_hw_sectors_kb: 120
+/sys/class/block/sdb/queue/max_sectors_kb: 120
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+FDISK
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Disk /dev/sdb: 28.67 GiB, 30784094208 bytes, 60125184 sectors
+Disk model: Cruzer Blade    
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 7CD178B0-860E-4729-A4A3-CD7BAE592982
+
+Device        Start      End  Sectors  Size Type
+/dev/sdb1        64 12988431 12988368  6.2G Microsoft basic data
+/dev/sdb2  12988432 12998591    10160    5M EFI System
+/dev/sdb3  12998592 12999191      600  300K Microsoft basic data
+/dev/sdb4  13000704 60123135 47122432 22.5G Linux filesystem
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+LSUSB
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 004: ID 0bda:0129 Realtek Semiconductor Corp. RTS5129 Card Reader Controller
+Bus 001 Device 005: ID 2232:1080 Silicon Motion Web Camera
+Bus 001 Device 006: ID 8087:0aaa Intel Corp. Bluetooth 9460/9560 Jefferson Peak (JfP)
+Bus 001 Device 022: ID 30fa:1040 INSTANT USB GAMING MOUSE 
+Bus 001 Device 029: ID 0781:5567 SanDisk Corp. Cruzer Blade
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+
+LSUSB TREE
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/:  Bus 001.Port 001: Dev 001, Class=root_hub, Driver=xhci_hcd/12p, 480M
+    |__ Port 002: Dev 022, If 0, Class=Human Interface Device, Driver=usbhid, 1.5M
+    |__ Port 002: Dev 022, If 1, Class=Human Interface Device, Driver=usbhid, 1.5M
+    |__ Port 003: Dev 029, If 0, Class=Mass Storage, Driver=usb-storage, 480M
+    |__ Port 004: Dev 004, If 0, Class=Vendor Specific Class, Driver=rtsx_usb, 480M
+    |__ Port 006: Dev 005, If 0, Class=Video, Driver=uvcvideo, 480M
+    |__ Port 006: Dev 005, If 1, Class=Video, Driver=uvcvideo, 480M
+    |__ Port 010: Dev 006, If 0, Class=Wireless, Driver=btusb, 12M
+    |__ Port 010: Dev 006, If 1, Class=Wireless, Driver=btusb, 12M
+/:  Bus 002.Port 001: Dev 001, Class=root_hub, Driver=xhci_hcd/6p, 10000M
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SMARTCTL
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+smartctl 7.4 2023-08-01 r5530 [x86_64-linux-6.12.57+deb13-amd64] (local build)
+Copyright (C) 2002-23, Bruce Allen, Christian Franke, www.smartmontools.org
+
+/dev/sdb: Unknown USB bridge [0x0781:0x5567 (0x100)]
+Please specify device type with the -d option.
+
+Use smartctl -h to get a usage summary
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+HDPARM IDENTIFY
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/dev/sdb:
+
+ATA device, with non-removable media
+Standards:
+	Likely used: 1
+Configuration:
+	Logical		max	current
+	cylinders	0	0
+	heads		0	0
+	sectors/track	0	0
+	--
+	Logical/Physical Sector size:           512 bytes
+	device size with M = 1024*1024:           0 MBytes
+	device size with M = 1000*1000:           0 MBytes 
+	cache/buffer size  = unknown
+Capabilities:
+	IORDY not likely
+	Cannot perform double-word IO
+	R/W multiple sector transfer: not supported
+	DMA: not supported
+	PIO: pio0 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

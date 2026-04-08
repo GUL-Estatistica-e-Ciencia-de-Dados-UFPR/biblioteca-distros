@@ -1,210 +1,192 @@
-- [Introdução](#introdução)
-- [Finalidade da Biblioteca](#finalidade-da-biblioteca)
-- [Procedimento de Retirada](#procedimento-de-retirada)
-- [Prazo de Utilização](#prazo-de-utilização)
-- [Procedimento de Devolução ou
-  Repasse](#procedimento-de-devolução-ou-repasse)
-- [Integridade e Uso dos
-  Dispositivos](#integridade-e-uso-dos-dispositivos)
-- [Verificação de Integridade
-  (Checksums)](#verificação-de-integridade-checksums)
-- [Uso Responsável](#uso-responsável)
-- [Sistema de Funcionamento](#sistema-de-funcionamento)
-- [Suporte e Comunicação](#suporte-e-comunicação)
-- [Tutoriais de Instalação (Linux
-  Mint)](#tutoriais-de-instalação-linux-mint)
+---
+title: |
+  **Regulamento de Uso da Biblioteca de Pendrives de Distribuições
+  Linux**  
+  GULECD/UFPR
+---
+
+- [Apresentação](#apresentação)
+- [Objetivo](#objetivo)
+- [Funcionamento da Biblioteca](#funcionamento-da-biblioteca)
+- [Procedimento de Retirada e
+  Devolução](#procedimento-de-retirada-e-devolução)
+- [Uso Adequado das Pendrives](#uso-adequado-das-pendrives)
+- [Verificação de Integridade](#verificação-de-integridade)
+- [Segurança e Responsabilidade do
+  Usuário](#segurança-e-responsabilidade-do-usuário)
+- [Isenção de Responsabilidade](#isenção-de-responsabilidade)
 - [Boas Práticas Recomendadas](#boas-práticas-recomendadas)
-- [Responsabilidade e Conservação](#responsabilidade-e-conservação)
+- [Conservação dos Dispositivos](#conservação-dos-dispositivos)
+- [Conduta e Colaboração](#conduta-e-colaboração)
 - [Disposições Finais](#disposições-finais)
 
-<div class="titlepage">
+# Apresentação
 
-**Regulamento de Uso da Biblioteca de Pendrives Linux**
+A Biblioteca de Pendrives de Distribuições Linux do GULECD/UFPR é uma
+iniciativa voltada à disseminação do conhecimento, à promoção do
+software livre e ao incentivo à experimentação de sistemas operacionais
+baseados em Linux.
 
-GULECD/UFPR – Grupo de Usuários Linux e Software Livre
+O projeto consiste na disponibilização de pendrives contendo imagens de
+instalação de distribuições Linux, preparados de forma padronizada.
+Esses dispositivos podem ser compartilhados entre os participantes do
+grupo, permitindo acesso facilitado a diferentes distribuições sem a
+necessidade de download individual.
 
-Estatística e Ciência de Dados – UFPR
+# Objetivo
 
-2026-04-07
+A biblioteca tem como objetivos principais:
 
-</div>
+- Facilitar o acesso a distribuições Linux para estudantes e membros da
+  comunidade;
 
-# Introdução
+- Promover a cultura de software livre e colaboração;
 
-A biblioteca de pendrives Linux do GULECD/UFPR tem como objetivo
-facilitar o acesso a sistemas operacionais baseados em software livre,
-promovendo aprendizado prático, autonomia tecnológica e disseminação do
-uso de Linux entre os membros do grupo. Este regulamento estabelece as
-diretrizes para utilização responsável dos dispositivos, garantindo sua
-integridade, rastreabilidade e disponibilidade para toda a comunidade.
+- Incentivar a experimentação prática em ambientes controlados
 
-# Finalidade da Biblioteca
+# Funcionamento da Biblioteca
 
-A biblioteca consiste em um conjunto de pendrives contendo distribuições
-Linux prontas para uso (live systems), permitindo:
+O funcionamento da biblioteca baseia-se no compartilhamento organizado
+dos pendrives entre os participantes.
 
-- Teste de sistemas operacionais sem instalação
+- O usuário pode retirar um pendrive na secretaria do curso de
+  Estatística e Ciência de Dados ou diretamente com outro membro do
+  grupo;
 
-- Instalação de Linux em máquinas pessoais
+- O período máximo de permanência com o pendrive é de **7 dias
+  corridos**;
 
-- Experimentação e aprendizado
+- Após esse período, o pendrive deve ser devolvido na secretaria do
+  curso ou repassado a outro membro interessado;
 
-# Procedimento de Retirada
+- Toda retirada e devolução deve ser registrada por meio do QR code
+  presente no dispositivo.
 
-A retirada de um pendrive pode ocorrer de duas formas:
+# Procedimento de Retirada e Devolução
 
-1.  Diretamente com um membro que esteja em posse de um pendrive
+Cada pendrive possui um QR code associado a um formulário de controle.
 
-2.  Em ponto físico previamente definido (quando aplicável)
+- No momento da retirada, o usuário deve escanear o QR code e preencher
+  o formulário correspondente;
 
-No momento da retirada, o usuário deverá obrigatoriamente:
+- No momento da devolução ou repasse, o mesmo procedimento deve ser
+  realizado;
 
-- Localizar o QR Code associado ao pendrive
+- O correto preenchimento é essencial para rastreabilidade e organização
+  da biblioteca.
 
-- Realizar o escaneamento
+# Uso Adequado das Pendrives
 
-- Preencher o formulário correspondente com:
+As pendrives da biblioteca foram configuradas como dispositivos de
+leitura (read-only) com imagens padronizadas.
 
-  - Nome
+- Não é permitido utilizar a pendrive para armazenamento de arquivos
+  pessoais;
 
-  - Data de retirada
+- Não é permitido modificar qualquer conteúdo presente na pendrive;
 
-  - Identificação do dispositivo
+- Não é permitido utilizar a pendrive para execução de atividades que
+  comprometam sua integridade;
 
-# Prazo de Utilização
+- Não é permitido utilizar a pendrive para quaisquer atividades que
+  infrinjam a legislação brasileira;
 
-O tempo máximo de permanência com o pendrive é de 7 dias corridos. Após
-este período, o dispositivo deve ser:
+- A utilização deve se restringir à inicialização (boot), experimentação
+  no ambiente Linux live e instalação das distribuições disponíveis.
 
-1.  Devolvido, ou
+# Verificação de Integridade
 
-2.  Repassado diretamente a outro membro
+Cada pendrive possui checksums criptográficos previamente gerados e
+assinados digitalmente.
 
-Em caso de repasse, o novo usuário também deverá preencher o formulário.
+- O usuário deve, sempre que possível, verificar os checksums antes da
+  utilização;
 
-# Procedimento de Devolução ou Repasse
+- Caso qualquer divergência seja identificada, a pendrive **não deve ser
+  utilizada**;
 
-No momento da devolução ou transferência:
+- O problema deve ser comunicado imediatamente à coordenação do grupo;
 
-- O usuário deve novamente escanear o QR Code
+- Ferramentas e instruções para verificação de integridade são
+  disponibilizadas no repositório do projeto em
+  https://github.com/GUL-Estatistica-e-Ciencia-de-Dados-UFPR/biblioteca-distros.
 
-- Preencher o formulário indicando:
+# Segurança e Responsabilidade do Usuário
 
-  - Data de devolução ou repasse
+Foram empregados os melhores esforços técnicos para garantir a
+integridade e segurança das pendrives, incluindo:
 
-  - Destino (devolução ou nome do próximo usuário)
+- uso de imagens oficiais;
 
-# Integridade e Uso dos Dispositivos
+- configuração para minimizar persistência e alterações;
 
-As pendrives da biblioteca são configuradas como read-only, sendo
-estritamente proibido:
+- geração e assinatura criptográfica de checksums;
 
-- Modificar qualquer arquivo contido no dispositivo
+- processos de validação e verificação.
 
-- Utilizar o pendrive para armazenamento pessoal
+Entretanto, **o usuário é responsável por verificar a integridade da
+pendrive antes do uso**. Isso inclui:
 
-- Alterar a estrutura da distribuição
+- validar checksums;
 
-O uso deve limitar-se exclusivamente à execução do sistema operacional.
+- verificar assinaturas digitais dos arquivos que contém as checksums;
 
-# Verificação de Integridade (Checksums)
+- garantir que o dispositivo não foi adulterado.
 
-Cada pendrive possui checksums previamente definidos.
+# Isenção de Responsabilidade
 
-Antes da utilização, recomenda-se que o usuário:
+O GULECD/UFPR não se responsabiliza por:
 
-1.  Verifique o checksum da imagem presente no dispositivo
+- perda de dados;
 
-2.  Compare com o valor oficial listado
+- danos a hardware ou software;
 
-Caso haja divergência:
+- falhas decorrentes do uso das pendrives;
 
-- Não utilizar o pendrive
+- quaisquer consequências diretas ou indiretas da utilização dos
+  dispositivos.
 
-- Notificar imediatamente a coordenação do grupo
-
-# Uso Responsável
-
-É estritamente proibido utilizar as pendrives para:
-
-- Atividades ilegais
-
-- Violação de normas institucionais
-
-- Qualquer uso que comprometa a integridade do grupo
-
-O uso é de responsabilidade integral do usuário.
-
-# Sistema de Funcionamento
-
-A biblioteca opera sob um sistema de confiança mútua (honra) entre os
-membros.
-
-Espera-se que todos:
-
-- Respeitem os prazos
-
-- Registrem corretamente retiradas e devoluções
-
-- Preservem os dispositivos
-
-# Suporte e Comunicação
-
-O grupo disponibiliza canais de suporte para auxiliar usuários:
-
-- Canal oficial no WhatsApp
-
-- Membros experientes do grupo
-
-Dúvidas técnicas, problemas ou dificuldades devem ser reportados nesses
-canais.
-
-# Tutoriais de Instalação (Linux Mint)
-
-Para auxiliar novos usuários, recomenda-se os seguintes tutoriais em
-português:
-
-- Guia oficial do Linux Mint
-
-- Tutoriais no YouTube (busca recomendada: “instalar Linux Mint passo a
-  passo”)
-
-- Documentação comunitária e fóruns
-
-Sugere-se priorizar fontes atualizadas e compatíveis com a versão da
-distribuição presente no pendrive.
+O uso das pendrives é de inteira responsabilidade do usuário.
 
 # Boas Práticas Recomendadas
 
-- Testar o sistema em modo live antes de instalar
+Para uma utilização segura e eficiente, recomenda-se:
 
-- Fazer backup completo antes de qualquer instalação
+- realizar backup de dados importantes antes de qualquer instalação;
 
-- Utilizar preferencialmente computadores pessoais
+- evitar uso em sistemas críticos sem validação prévia;
 
-- Evitar uso em máquinas institucionais sem autorização
+- manter boas práticas de segurança digital.
 
-- Manter cuidado físico com o dispositivo
+# Conservação dos Dispositivos
 
-# Responsabilidade e Conservação
+Para garantir a durabilidade das pendrives:
 
-O usuário é responsável pelo pendrive durante o período de posse.
+- evite impactos físicos;
 
-Em caso de:
+- não exponha a líquidos ou temperaturas extremas;
 
-- Perda
+- não remova o dispositivo durante operações de leitura;
 
-- Dano físico
+- mantenha o dispositivo limpo e protegido.
 
-- Mau funcionamento
+# Conduta e Colaboração
 
-A coordenação deve ser informada imediatamente.
+A biblioteca depende da colaboração dos participantes.
+
+- respeite os prazos de uso;
+
+- registre corretamente as movimentações;
+
+- reporte problemas técnicos;
+
+- contribua com sugestões de melhoria;
+
+- respeite os demais usuários do sistema.
 
 # Disposições Finais
 
-Este regulamento visa garantir o uso eficiente, seguro e sustentável da
-biblioteca de pendrives Linux. O descumprimento das regras pode resultar
-em restrições de uso futuras.
+O uso das pendrives implica na concordância com este regulamento.
 
-A iniciativa depende da colaboração coletiva para seu funcionamento
-adequado e continuidade.
+O GULECD/UFPR poderá atualizar este documento conforme necessário para
+aprimorar o funcionamento da biblioteca.

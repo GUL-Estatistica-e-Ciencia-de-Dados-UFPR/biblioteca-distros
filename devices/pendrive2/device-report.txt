@@ -1,0 +1,283 @@
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+PHYSICAL DEVICE REPORT
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Timestamp:               2026-04-07 11:42:20 -03
+Device:                  /dev/sdb
+Kernel name:             sdb
+Resolved path:           /dev/sdb
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+LSBLK SHORT
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+NAME   PATH       SIZE TYPE TRAN MODEL      VENDOR   SERIAL                 ROTA HOTPLUG MOUNTPOINT
+sdb    /dev/sdb   3.8G disk usb  Flash Disk Generic  Generic_Flash_Disk-0:0    1       1 
+└─sdb1 /dev/sdb1  3.7G part                                                    1       1 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+LSBLK FULL
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALIGNMENT ID-LINK                          ID                           DISC-ALN DAX DISC-GRAN DISK-SEQ DISC-MAX DISC-ZERO FSAVAIL FSROOTS FSSIZE FSTYPE FSUSED FSUSE% FSVER GROUP HCTL       HOTPLUG KNAME LABEL LOG-SEC MAJ:MIN MAJ MIN MIN-IO MODE       MODEL       MQ NAME   OPT-IO OWNER PARTFLAGS PARTLABEL PARTN PARTTYPE PARTTYPENAME PARTUUID                             PATH      PHY-SEC PKNAME PTTYPE PTUUID                                RA RAND  REV RM RO ROTA RQ-SIZE SCHED       SERIAL                  SIZE START STATE   SUBSYSTEMS         MOUNTPOINT MOUNTPOINTS TRAN TYPE UUID                                 VENDOR   WSAME WWN ZONED ZONE-SZ ZONE-WGRAN ZONE-APP ZONE-NR ZONE-OMAX ZONE-AMAX
+        0 usb-Generic_Flash_Disk-0:0       Generic_Flash_Disk-0:0              0   0        0B       60       0B         0                                                   disk  2:0:0:0          1 sdb             512   8:16  8   16     512 brw-rw---- Flash Disk   1 sdb         0 root                                                                                       /dev/sdb      512        dos    3b6959ea                             128    1 8.07  1  0    1       2 mq-deadline Generic_Flash_Disk-0:0  3.8G       running block:scsi:usb:pci                        usb  disk                                      Generic     0B     none       0B         0B       0B       0         0         0
+        0 usb-Generic_Flash_Disk-0:0-part1 Generic_Flash_Disk-0:0-part1        0   0        0B       60       0B         0                        vfat                 FAT32 disk                   1 sdb1  BINGO     512   8:17  8   17     512 brw-rw----              1 └─sdb1      0 root  0x80                    1 0xb      W95 FAT32    3b6959ea-01                          /dev/sdb1     512 sdb    dos    3b6959ea                             128    1       1  0    1       2 mq-deadline                         3.7G    64         block:scsi:usb:pci                             part 3B69-59EA                                        0B     none       0B         0B       0B       0         0         0
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+BLOCKDEV
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RO    RA   SSZ   BSZ        StartSec            Size   Device
+rw   256   512  4096               0      4026531840   /dev/sdb
+
+Size bytes: 4026531840
+Logical sector size: 512
+Physical sector size: 512
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+BLKID
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/dev/sdb: PTUUID="3b6959ea" PTTYPE="dos"
+/dev/sdb1: LABEL_FATBOOT="DISK_IMG" LABEL="BINGO" UUID="3B69-59EA" BLOCK_SIZE="512" TYPE="vfat" PARTUUID="3b6959ea-01"
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+UDEVADM INFO
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+P: /devices/pci0000:00/0000:00:14.0/usb1/1-3/1-3:1.0/host2/target2:0:0/2:0:0:0/block/sdb
+M: sdb
+J: b8:16
+U: block
+T: disk
+D: b 8:16
+N: sdb
+L: 0
+S: disk/by-diskseq/60
+S: disk/by-id/usb-Generic_Flash_Disk-0:0
+S: disk/by-path/pci-0000:00:14.0-usbv2-0:3:1.0-scsi-0:0:0:0
+S: disk/by-path/pci-0000:00:14.0-usb-0:3:1.0-scsi-0:0:0:0
+Q: 60
+E: DEVPATH=/devices/pci0000:00/0000:00:14.0/usb1/1-3/1-3:1.0/host2/target2:0:0/2:0:0:0/block/sdb
+E: DEVNAME=/dev/sdb
+E: DEVTYPE=disk
+E: DISKSEQ=60
+E: MAJOR=8
+E: MINOR=16
+E: SUBSYSTEM=block
+E: USEC_INITIALIZED=790364933186
+E: ID_BUS=usb
+E: ID_MODEL=Flash_Disk
+E: ID_MODEL_ENC=Flash\x20Disk\x20\x20\x20\x20\x20\x20
+E: ID_MODEL_ID=6387
+E: ID_SERIAL=Generic_Flash_Disk-0:0
+E: ID_VENDOR=Generic
+E: ID_VENDOR_ENC=Generic\x20
+E: ID_VENDOR_ID=058f
+E: ID_REVISION=8.07
+E: ID_TYPE=disk
+E: ID_INSTANCE=0:0
+E: ID_USB_MODEL=Flash_Disk
+E: ID_USB_MODEL_ENC=Flash\x20Disk\x20\x20\x20\x20\x20\x20
+E: ID_USB_MODEL_ID=6387
+E: ID_USB_SERIAL=Generic_Flash_Disk-0:0
+E: ID_USB_VENDOR=Generic
+E: ID_USB_VENDOR_ENC=Generic\x20
+E: ID_USB_VENDOR_ID=058f
+E: ID_USB_REVISION=8.07
+E: ID_USB_TYPE=disk
+E: ID_USB_INSTANCE=0:0
+E: ID_USB_INTERFACES=:080650:
+E: ID_USB_INTERFACE_NUM=00
+E: ID_USB_DRIVER=usb-storage
+E: ID_PATH_WITH_USB_REVISION=pci-0000:00:14.0-usbv2-0:3:1.0-scsi-0:0:0:0
+E: ID_PATH=pci-0000:00:14.0-usb-0:3:1.0-scsi-0:0:0:0
+E: ID_PATH_TAG=pci-0000_00_14_0-usb-0_3_1_0-scsi-0_0_0_0
+E: ID_PART_TABLE_UUID=3b6959ea
+E: ID_PART_TABLE_TYPE=dos
+E: DEVLINKS=/dev/disk/by-diskseq/60 /dev/disk/by-id/usb-Generic_Flash_Disk-0:0 /dev/disk/by-path/pci-0000:00:14.0-usbv2-0:3:1.0-scsi-0:0:0:0 /dev/disk/by-path/pci-0000:00:14.0-usb-0:3:1.0-scsi-0:0:0:0
+E: TAGS=:systemd:
+E: CURRENT_TAGS=:systemd:
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SYSFS SNAPSHOT
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/sys/class/block/sdb/device/model: Flash Disk      
+/sys/class/block/sdb/device/vendor: Generic 
+/sys/class/block/sdb/device/rev: 8.07
+/sys/class/block/sdb/removable: 1
+/sys/class/block/sdb/ro: 0
+/sys/class/block/sdb/size: 7864320
+/sys/class/block/sdb/stat:      205        0     7720      493        0        0        0        0        0      436      493        0        0        0        0        0        0
+/sys/class/block/sdb/device/state: running
+/sys/class/block/sdb/queue/logical_block_size: 512
+/sys/class/block/sdb/queue/physical_block_size: 512
+/sys/class/block/sdb/queue/read_ahead_kb: 128
+/sys/class/block/sdb/queue/rotational: 1
+/sys/class/block/sdb/queue/max_hw_sectors_kb: 120
+/sys/class/block/sdb/queue/max_sectors_kb: 120
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+FDISK
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Disk /dev/sdb: 3.75 GiB, 4026531840 bytes, 7864320 sectors
+Disk model: Flash Disk      
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x3b6959ea
+
+Device     Boot Start     End Sectors  Size Id Type
+/dev/sdb1  *       64 7864319 7864256  3.7G  b W95 FAT32
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+LSUSB
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 004: ID 0bda:0129 Realtek Semiconductor Corp. RTS5129 Card Reader Controller
+Bus 001 Device 005: ID 2232:1080 Silicon Motion Web Camera
+Bus 001 Device 006: ID 8087:0aaa Intel Corp. Bluetooth 9460/9560 Jefferson Peak (JfP)
+Bus 001 Device 022: ID 30fa:1040 INSTANT USB GAMING MOUSE 
+Bus 001 Device 025: ID 058f:6387 Alcor Micro Corp. Flash Drive
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+
+LSUSB TREE
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/:  Bus 001.Port 001: Dev 001, Class=root_hub, Driver=xhci_hcd/12p, 480M
+    |__ Port 002: Dev 022, If 0, Class=Human Interface Device, Driver=usbhid, 1.5M
+    |__ Port 002: Dev 022, If 1, Class=Human Interface Device, Driver=usbhid, 1.5M
+    |__ Port 003: Dev 025, If 0, Class=Mass Storage, Driver=usb-storage, 480M
+    |__ Port 004: Dev 004, If 0, Class=Vendor Specific Class, Driver=rtsx_usb, 480M
+    |__ Port 006: Dev 005, If 0, Class=Video, Driver=uvcvideo, 480M
+    |__ Port 006: Dev 005, If 1, Class=Video, Driver=uvcvideo, 480M
+    |__ Port 010: Dev 006, If 0, Class=Wireless, Driver=btusb, 12M
+    |__ Port 010: Dev 006, If 1, Class=Wireless, Driver=btusb, 12M
+/:  Bus 002.Port 001: Dev 001, Class=root_hub, Driver=xhci_hcd/6p, 10000M
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SMARTCTL
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+smartctl 7.4 2023-08-01 r5530 [x86_64-linux-6.12.57+deb13-amd64] (local build)
+Copyright (C) 2002-23, Bruce Allen, Christian Franke, www.smartmontools.org
+
+/dev/sdb: Unknown USB bridge [0x058f:0x6387 (0x100)]
+Please specify device type with the -d option.
+
+Use smartctl -h to get a usage summary
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+HDPARM IDENTIFY
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/dev/sdb:
+
+ATA device, with non-removable media
+Standards:
+	Likely used: 1
+Configuration:
+	Logical		max	current
+	cylinders	0	0
+	heads		0	0
+	sectors/track	0	0
+	--
+	Logical/Physical Sector size:           512 bytes
+	device size with M = 1024*1024:           0 MBytes
+	device size with M = 1000*1000:           0 MBytes 
+	cache/buffer size  = unknown
+Capabilities:
+	IORDY not likely
+	Cannot perform double-word IO
+	R/W multiple sector transfer: not supported
+	DMA: not supported
+	PIO: pio0 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DMESG TAIL BEFORE TEST
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+[785462.511658] usb 1-2: SerialNumber: DE1522B4
+[785462.512882] usb-storage 1-2:1.0: USB Mass Storage device detected
+[785462.513130] scsi host2: usb-storage 1-2:1.0
+[785463.525001] scsi 2:0:0:0: Direct-Access     Generic  Flash Disk       8.07 PQ: 0 ANSI: 4
+[785463.525202] sd 2:0:0:0: Attached scsi generic sg1 type 0
+[785463.527168] sd 2:0:0:0: [sdb] 7864320 512-byte logical blocks: (4.03 GB/3.75 GiB)
+[785463.527965] sd 2:0:0:0: [sdb] Write Protect is off
+[785463.527968] sd 2:0:0:0: [sdb] Mode Sense: 23 00 00 00
+[785463.528612] sd 2:0:0:0: [sdb] Write cache: disabled, read cache: enabled, doesn't support DPO or FUA
+[785463.552379]  sdb: sdb1 sdb2
+[785463.552562] sd 2:0:0:0: [sdb] Attached SCSI removable disk
+[785563.368680] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=11637 DF PROTO=2 
+[785688.172391] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=16968 DF PROTO=2 
+[785813.028472] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=17892 DF PROTO=2 
+[785937.953640] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=46857 DF PROTO=2 
+[786062.782018] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=53943 DF PROTO=2 
+[786152.774336] usb 1-2: USB disconnect, device number 20
+[786153.115229] usb 1-2: new high-speed USB device number 21 using xhci_hcd
+[786155.249173] usb 1-3: USB disconnect, device number 3
+[786162.491266] usb 1-2: new low-speed USB device number 22 using xhci_hcd
+[786162.638995] usb 1-2: New USB device found, idVendor=30fa, idProduct=1040, bcdDevice= 1.00
+[786162.639001] usb 1-2: New USB device strings: Mfr=2, Product=1, SerialNumber=0
+[786162.639004] usb 1-2: Product: USB GAMING MOUSE 
+[786162.639006] usb 1-2: Manufacturer: INSTANT
+[786162.643008] input: INSTANT USB GAMING MOUSE  as /devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2:1.0/0003:30FA:1040.0014/input/input68
+[786162.643120] hid-generic 0003:30FA:1040.0014: input,hidraw1: USB HID v1.10 Mouse [INSTANT USB GAMING MOUSE ] on usb-0000:00:14.0-2/input0
+[786162.646482] input: INSTANT USB GAMING MOUSE  Keyboard as /devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2:1.1/0003:30FA:1040.0015/input/input69
+[786162.703431] hid-generic 0003:30FA:1040.0015: input,hiddev0,hidraw2: USB HID v1.10 Keyboard [INSTANT USB GAMING MOUSE ] on usb-0000:00:14.0-2/input1
+[786170.459210] usb 1-3: new high-speed USB device number 23 using xhci_hcd
+[786170.607698] usb 1-3: New USB device found, idVendor=058f, idProduct=6387, bcdDevice= 1.00
+[786170.607704] usb 1-3: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[786170.607706] usb 1-3: Product: Mass Storage
+[786170.607708] usb 1-3: Manufacturer: Generic
+[786170.607709] usb 1-3: SerialNumber: DE1522B4
+[786170.608703] usb-storage 1-3:1.0: USB Mass Storage device detected
+[786170.608833] scsi host2: usb-storage 1-3:1.0
+[786171.620887] scsi 2:0:0:0: Direct-Access     Generic  Flash Disk       8.07 PQ: 0 ANSI: 4
+[786171.621114] sd 2:0:0:0: Attached scsi generic sg1 type 0
+[786171.623063] sd 2:0:0:0: [sdb] 7864320 512-byte logical blocks: (4.03 GB/3.75 GiB)
+[786171.623710] sd 2:0:0:0: [sdb] Write Protect is off
+[786171.623714] sd 2:0:0:0: [sdb] Mode Sense: 23 00 00 00
+[786171.624605] sd 2:0:0:0: [sdb] Write cache: disabled, read cache: enabled, doesn't support DPO or FUA
+[786171.652202]  sdb: sdb1 sdb2
+[786171.652386] sd 2:0:0:0: [sdb] Attached SCSI removable disk
+[786187.709626] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=56923 DF PROTO=2 
+[786312.455016] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=1470 DF PROTO=2 
+[786437.311578] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=6641 DF PROTO=2 
+[786562.190416] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=28944 DF PROTO=2 
+[786687.119872] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=49494 DF PROTO=2 
+[786811.948670] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=10496 DF PROTO=2 
+[786936.736922] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=28354 DF PROTO=2 
+[787061.601752] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=35151 DF PROTO=2 
+[787186.531354] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=37951 DF PROTO=2 
+[787311.358656] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=47959 DF PROTO=2 
+[787436.185756] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=5697 DF PROTO=2 
+[787561.115269] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=29953 DF PROTO=2 
+[787685.942493] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=53077 DF PROTO=2 
+[787810.771047] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=56199 DF PROTO=2 
+[787935.595609] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=4808 DF PROTO=2 
+[788047.983829]  sdb: sdb1 sdb2
+[788060.526787] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=6537 DF PROTO=2 
+[788185.356331] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=11229 DF PROTO=2 
+[788204.868097]  sdb: sdb1 sdb2
+[788310.181972] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=34214 DF PROTO=2 
+[788435.111667] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=59305 DF PROTO=2 
+[788559.939367] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=6018 DF PROTO=2 
+[788684.766959] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=22926 DF PROTO=2 
+[788809.585166] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=32317 DF PROTO=2 
+[788934.440938] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=56986 DF PROTO=2 
+[789059.349401] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=1139 DF PROTO=2 
+[789173.018281] systemd-journald[725]: Under memory pressure, flushing caches.
+[789175.039215] systemd-journald[725]: Under memory pressure, flushing caches.
+[789184.154217] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=21649 DF PROTO=2 
+[789189.055189] systemd-journald[725]: Under memory pressure, flushing caches.
+[789209.087081] systemd-journald[725]: Under memory pressure, flushing caches.
+[789309.108431] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=29916 DF PROTO=2 
+[789433.935602] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=49954 DF PROTO=2 
+[789558.760803] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=326 DF PROTO=2 
+[789683.588215] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=5266 DF PROTO=2 
+[789808.519196] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=34854 DF PROTO=2 
+[789933.348365] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=40367 DF PROTO=2 
+[790058.172277] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=45986 DF PROTO=2 
+[790183.003852] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=7490 DF PROTO=2 
+[790238.323918]  sdb: sdb1 sdb2
+[790307.931232] [UFW BLOCK] IN=wlo1 OUT= MAC=01:00:5e:00:00:01:94:2c:b3:d5:bb:60:08:00 SRC=192.168.0.1 DST=224.0.0.1 LEN=36 TOS=0x00 PREC=0x00 TTL=1 ID=18781 DF PROTO=2 
+[790325.225041] usb 1-3: USB disconnect, device number 23
+[790363.827010] usb 1-3: new high-speed USB device number 25 using xhci_hcd
+[790363.970067] usb 1-3: string descriptor 0 read error: -71
+[790363.970072] usb 1-3: New USB device found, idVendor=058f, idProduct=6387, bcdDevice= 1.00
+[790363.970074] usb 1-3: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[790363.971041] usb-storage 1-3:1.0: USB Mass Storage device detected
+[790363.971244] scsi host2: usb-storage 1-3:1.0
+[790364.996514] scsi 2:0:0:0: Direct-Access     Generic  Flash Disk       8.07 PQ: 0 ANSI: 4
+[790364.996682] sd 2:0:0:0: Attached scsi generic sg1 type 0
+[790364.998767] sd 2:0:0:0: [sdb] 7864320 512-byte logical blocks: (4.03 GB/3.75 GiB)
+[790364.999407] sd 2:0:0:0: [sdb] Write Protect is off
+[790364.999410] sd 2:0:0:0: [sdb] Mode Sense: 23 00 00 00
+[790365.000057] sd 2:0:0:0: [sdb] Write cache: disabled, read cache: enabled, doesn't support DPO or FUA
+[790365.023992]  sdb: sdb1
+[790365.024106] sd 2:0:0:0: [sdb] Attached SCSI removable disk
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

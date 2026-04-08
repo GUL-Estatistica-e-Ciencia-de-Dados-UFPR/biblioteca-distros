@@ -1,0 +1,33 @@
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+REBUILD REPORT
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Timestamp:         2026-04-07 10:57:52 -03
+Input ISO:         /home/marcos/Projects/gulecd/isos/linuxmint-22.3-cinnamon-64bit.iso
+Output ISO:        /home/marcos/Projects/gulecd/isos/linuxmint-22.3-cinnamon-64bit-repacked.iso
+Volume ID:         Linux Mint 22.3 Cinnamon 64-bit
+Extract dir:       /home/marcos/Projects/gulecd/isos/working_dir/extract
+Boot images dir:   /home/marcos/Projects/gulecd/isos/working_dir/boot_images
+MBR image:         /home/marcos/Projects/gulecd/isos/working_dir/boot_images/mbr_code_isohybrid.img
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+PATCHED GRUB: /home/marcos/Projects/gulecd/isos/working_dir/extract/boot/grub/grub.cfg
+PATCHED NOPERSISTENT: /home/marcos/Projects/gulecd/isos/working_dir/extract/isolinux/isolinux.cfg
+PATCHED EXTRA NOPERSISTENT: /home/marcos/Projects/gulecd/isos/working_dir/extract/isolinux/live.cfg
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+xorriso -as mkisofs \
+  -r \
+  -V "Linux Mint 22.3 Cinnamon 64-bit" \
+  -o "/home/marcos/Projects/gulecd/isos/linuxmint-22.3-cinnamon-64bit-repacked.iso" \
+  -J -joliet-long -l \
+  -iso-level 3 \
+  -isohybrid-mbr "/home/marcos/Projects/gulecd/isos/working_dir/boot_images/mbr_code_isohybrid.img" \
+  -c isolinux/boot.cat \
+  -b isolinux/isolinux.bin \
+  -no-emul-boot \
+  -boot-load-size 4 \
+  -boot-info-table \
+  -eltorito-alt-boot \
+  -e boot/grub/efi.img \
+  -no-emul-boot \
+  -isohybrid-gpt-basdat \
+  "/home/marcos/Projects/gulecd/isos/working_dir/extract"
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
